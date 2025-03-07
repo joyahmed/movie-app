@@ -1,46 +1,13 @@
+import TabIcon from '@/components/TabIcon';
 import { icons } from '@/constants/icons';
-import { images } from '@/constants/images';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Image, ImageBackground, Text, View } from 'react-native';
-
-const TabIcon = ({
-	focused,
-	icon,
-	title
-}: {
-	focused: boolean;
-	icon: any;
-	title: string;
-}) => {
-	return (
-		<>
-			{focused ? (
-				<ImageBackground
-					source={images.highlight}
-					className='flex flex-row items-center justify-center w-full flex-1 min-w-[112px] min-h-16 mt-4 rounded-full overflow-hidden'
-				>
-					<Image
-						source={icon}
-						tintColor='#151312'
-						className='size-5'
-					/>
-					<Text className='text-secondary text-base font-semibold ml-2'>
-						{title}
-					</Text>
-				</ImageBackground>
-			) : (
-				<View className='size-full items-center justify-center mt-4 rounded-full'>
-					<Image
-						source={icon}
-						tintColor='#A8B5DB'
-						className='size-5'
-					/>
-				</View>
-			)}
-		</>
-	);
-};
+const tabs = [
+	{ name: 'index', title: 'Home', icon: icons.home },
+	{ name: 'search', title: 'Search', icon: icons.search },
+	{ name: 'saved', title: 'Saved', icon: icons.save },
+	{ name: 'profile', title: 'Profile', icon: icons.person }
+];
 
 const _layout = () => {
 	return (
@@ -65,54 +32,24 @@ const _layout = () => {
 				}
 			}}
 		>
-			<Tabs.Screen
-				name='index'
-				options={{
-					title: 'Home',
-					headerShown: false,
-					tabBarIcon: ({ focused }) => (
-						<TabIcon
-							{...{ focused, icon: icons.home, title: 'Home' }}
-						/>
-					)
-				}}
-			/>
-			<Tabs.Screen
-				name='search'
-				options={{
-					title: 'Search',
-					headerShown: false,
-					tabBarIcon: ({ focused }) => (
-						<TabIcon
-							{...{ focused, icon: icons.search, title: 'Search' }}
-						/>
-					)
-				}}
-			/>
-			<Tabs.Screen
-				name='saved'
-				options={{
-					title: 'Saved',
-					headerShown: false,
-					tabBarIcon: ({ focused }) => (
-						<TabIcon
-							{...{ focused, icon: icons.save, title: 'Saved' }}
-						/>
-					)
-				}}
-			/>
-			<Tabs.Screen
-				name='profile'
-				options={{
-					title: 'Profile',
-					headerShown: false,
-					tabBarIcon: ({ focused }) => (
-						<TabIcon
-							{...{ focused, icon: icons.person, title: 'Profile' }}
-						/>
-					)
-				}}
-			/>
+			{/* Map through tabs array to generate Tabs.Screen components */}
+			{tabs.map(tab => (
+				<Tabs.Screen
+					key={tab.name}
+					name={tab.name}
+					options={{
+						title: tab.title,
+						headerShown: false,
+						tabBarIcon: ({ focused }) => (
+							<TabIcon
+								focused={focused}
+								icon={tab.icon}
+								title={tab.title}
+							/>
+						)
+					}}
+				/>
+			))}
 		</Tabs>
 	);
 };
